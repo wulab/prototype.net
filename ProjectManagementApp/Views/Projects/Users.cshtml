@@ -1,0 +1,81 @@
+﻿@model ProjectManagementApp.Models.Project
+@using ProjectManagementApp.Helpers
+
+@{
+    ViewBag.Title = "Project users";
+    ViewBag.CurrentProject = Model;
+}
+
+<div id="content" class="column grid_12">
+  <div class="inner last">
+    @Html.ActionLink("Back to projects", "Index", "Projects", null, new { @class = "back_link" })
+    <h2>People in this project</h2>
+    <hr />
+    
+    @if (ViewBag.CurrentUser.IsAdmin)
+    {
+        <div id="action_bar">
+            @using (Html.BeginForm("AddUser", "Projects", new { id = Model.Id }))
+            {
+                @Html.DropDownList(
+                    "UserId",
+                    new SelectList(ViewBag.People as System.Collections.IEnumerable, "Id", "Name"),
+                    new { style="min-width:200px" })
+                <input type="submit" value="Add user" />
+            }
+        </div>
+    }
+    
+    @if (Model.Users.Count > 0)
+    {
+        <ul class="users clearfix">
+            @foreach (var user in Model.Users)
+            {
+                if (user.IsAdmin)
+                {
+                    <li>
+                      <div class="user_photo medium">
+                        @Html.GravatarImage(user.Email, 100)
+                      </div>
+                      <h4>
+                        @Html.ActionLink(user.Name, "Details", "Users", new { id = user.Id }, new { @class = "admin_link" })
+                      </h4>
+                      <p>Administrator</p>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                      <div class="user_photo medium">
+                        @Html.GravatarImage(user.Email, 100)
+                      </div>
+                      <h4>
+                        @Html.ActionLink(user.Name, "Details", "Users", new { id = user.Id }, null)
+                      </h4>
+                      <p>Current position</p>
+                      <div class="actions">
+                        @if (ViewBag.CurrentUser.IsAdmin)
+                        {
+                            using (Html.BeginForm("RemoveUser", "Projects", new { id = Model.Id }))
+                            {
+                                @Html.Hidden("UserId", user.Id)
+                                <input type="submit" value="Remove" />
+                            }
+                        }
+                      </div>
+                    </li>
+                }
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="blank_slate">
+            No users in this project.
+        </div>
+    }
+    
+    <hr />
+    
+  </div>
+</div>

@@ -1,0 +1,21 @@
+﻿@model ProjectManagementApp.Models.User
+
+@{
+    ViewBag.Title = "Delete user";
+}
+
+<div id="content" class="column grid_12">
+  <div class="inner last">
+    <h2 class="center"><span class="iconic x"></span> Delete Confirmation</h2>
+    <hr />
+  
+    @using (Html.BeginForm()) {
+        <fieldset class="inputs">
+            <ol>
+                <li>Are you sure you want to delete the user named <strong>@Model.Name</strong>?</li>
+                <li><input type="submit" value="Delete" /> or @Html.ActionLink("Cancel", "Index", "Users")</li>
+            </ol>
+        </fieldset>
+    }
+  </div>
+</div>

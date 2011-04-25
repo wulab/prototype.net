@@ -1,0 +1,82 @@
+﻿@model ProjectManagementApp.Models.User
+@using ProjectManagementApp.Helpers
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<div id="content" class="column grid_12">
+  <div class="inner">
+    <div class="user_photo large">
+      @Html.GravatarImage(@Model.Email, 150)
+    </div>
+    
+        <table class="user_info" summary="User Info" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td colspan="2"><h2>@Model.Name</h2></td>
+          </tr> 
+          <tr>
+            <td><span class="quiet">Email</span></td>
+            <td>@Model.Email</td>
+          </tr>
+          <tr>
+            <td><span class="quiet">URL</span></td>
+            <td>@Html.ActionLink(@Url.Action("Details", "Users", new { id = Model.Id }), "Details", new { id = Model.Id })</td>
+          </tr>
+          <tr>
+            <td><span class="quiet">Microposts</span></td>
+            <td>@Model.Microposts.Count</td>
+          </tr>
+        </table>
+    <hr />
+    
+  </div>
+  
+  <div class="row">
+    <div class="column grid_6">
+      <div class="inner last">
+    
+        <h3>Latest posts:</h3>
+        
+        @if (ViewBag.Microposts.Count > 0)
+        {
+            <ul class="microposts">
+              @foreach (var micropost in ViewBag.Microposts)
+              {
+                <li>
+                  <span class="content">
+                    @micropost.Content
+                  </span>
+                  <span class="timestamp">
+                    Posted on @micropost.DateCreated.
+                    @if (micropost.User == ViewBag.CurrentUser)
+                    {
+                        @Html.ActionLink("Delete", "Delete", "Microposts", new { id = micropost.Id }, null)
+                    }
+                  </span>
+                </li>
+              }
+            </ul>
+        }
+        else
+        {
+            <div class="blank_slate last">
+              There's no updates yet
+            </div>
+        }
+      
+      </div>
+    </div>
+    
+    <div class="column grid_6">
+      <div class="inner last">
+
+        <h3>Latest activities:</h3>
+        <div class="blank_slate last">
+            There's no updates yet
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

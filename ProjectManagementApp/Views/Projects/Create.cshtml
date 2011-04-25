@@ -1,0 +1,49 @@
+﻿@model ProjectManagementApp.Models.Project
+
+@{
+    ViewBag.Title = "Create project";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div id="content" class="column grid_12">
+  <div class="inner last">
+  
+    <h2 class="center">
+      <span class="iconic pencil"></span>
+      Create new project
+    </h2>
+    <hr />
+    
+    @using (Html.BeginForm()) {
+      @Html.ValidationSummary(true)
+      <fieldset class="inputs">
+        <ol>
+          <li class="string required title">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+          </li>
+          <li class="string required title">
+            @Html.LabelFor(model => model.Description)
+            @Html.TextAreaFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+          </li>
+          <li class="string required">
+            @Html.LabelFor(model => model.Budget)
+            @Html.EditorFor(model => model.Budget)
+            @Html.ValidationMessageFor(model => model.Budget)
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset class="buttons">
+        <ol>
+            <li><input type="submit" value="Create" /></li>
+            <li>or @Html.ActionLink("Cancel", "Index", "Projects")</li>
+        </ol>
+      </fieldset>
+    }
+
+  </div>
+</div>

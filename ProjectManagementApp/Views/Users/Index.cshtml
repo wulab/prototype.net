@@ -1,0 +1,52 @@
+﻿@model IEnumerable<ProjectManagementApp.Models.User>
+@using ProjectManagementApp.Helpers
+
+@{
+    ViewBag.Title = "People";
+}
+
+<div id="content" class="column grid_12">
+  <div class="inner last">
+    <h2 class="center"><span class="iconic user"></span> All users</h2>
+    <hr />
+    
+    <ul class="users clearfix">
+        @foreach (var user in Model)
+        {
+            if (user.IsAdmin)
+            {
+                <li>
+                  <div class="user_photo medium">
+                    @Html.GravatarImage(user.Email, 100)
+                  </div>
+                  <h4>
+                    @Html.ActionLink(user.Name, "Details", "Users", new { id = user.Id }, new { @class = "admin_link" })
+                  </h4>
+                  <p>Administrator</p>
+                </li>
+            }
+            else
+            {
+                <li>
+                  <div class="user_photo medium">
+                    @Html.GravatarImage(user.Email, 100)
+                  </div>
+                  <h4>
+                    @Html.ActionLink(user.Name, "Details", "Users", new { id = user.Id }, null)
+                  </h4>
+                  <p>Current position</p>
+                  <div class="actions">
+                    @if (ViewBag.CurrentUser.IsAdmin)
+                    {
+                        @Html.ActionLink("Delete", "Delete", "Users", new { id = user.Id }, new { @class = "button", title = "Delete " + user.Name })
+                    }
+                  </div>
+                </li>
+            }
+        }
+    </ul>
+    
+    <hr />
+    
+  </div>
+</div>

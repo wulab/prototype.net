@@ -1,0 +1,82 @@
+﻿@model ProjectManagementApp.Models.DashboardViewModel
+@using ProjectManagementApp.Helpers
+
+@{
+    ViewBag.Title = "Dashboard";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div id="content" class="column grid_12">
+  <div class="inner">
+    
+    <h2 class="center"><span class="iconic image"></span> Your Dashboard</h2>
+    <hr />
+    
+    <div class="box">
+      <h3>Insert <a href="http://www.patternry.com/p=blank-slate/" target="_blank">blank slate</a> here.</h3>
+      <p>Blank slate is the screen people see when they start using an application and there is no data to show yet. Leaving it blank would not make a good first impression, so it should be filled with something useful to make the impression positive and help people get started.</p>
+      <p>To make blank slate useful, consider inserting quick tutorials, videos, help tips, call to action-elements, screenshot of the page when it is in “normal” stage – anything that helps the user and makes him happy with your app.</p>
+    </div>
+    
+  </div>
+  
+  <div class="row">
+    <div class="column grid_6">
+      <div class="inner last">
+
+        @if (Model.Microposts.Count() > 0)
+        {
+            <ul class="feeds">
+                @foreach (var micropost in Model.Microposts)
+                {
+                    <li class="clearfix">
+                        <span class="title">
+                            @micropost.User.Name
+                            posted on @micropost.DateCreated.
+                        </span>
+                        <span class="user_photo">
+                            @Html.GravatarImage(micropost.User.Email)
+                        </span>
+                        <span class="content">
+                            @micropost.Content
+                        </span>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <div class="blank_slate">
+              Time to Update Your Status<br /><br />
+              <span class="iconic arrow-right"></span>
+              <span class="iconic arrow-right"></span>
+              <span class="iconic arrow-right"></span>
+            </div>
+        }
+
+      </div>
+    </div>
+    
+    <div class="column grid_6">
+      <div class="inner last">
+      
+        <h2>What's up?</h2>
+        @using (Html.BeginForm("Create", "Microposts"))
+        {
+            @Html.ValidationSummary(true)
+            <div class="fields">
+                @Html.TextAreaFor(model => model.Micropost.Content, new { style="width:400px;height:80px;" })
+                @Html.ValidationMessageFor(model => model.Micropost.Content)
+            </div>
+            <div class="actions">
+                <input type="submit" value="Submit" />
+            </div>
+        }
+
+      </div>
+    </div>
+    
+  </div>
+</div>

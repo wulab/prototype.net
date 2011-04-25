@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ProjectManagementApp.Models.Project>
+@using ProjectManagementApp.Helpers
+
+@{
+    ViewBag.Title = "Company projects";
+}
+
+<div id="filter_bar">
+  <ul>
+    <li>Showing all projects in</li>
+    <li><a href="#">Any department</a></li>
+    <li>with</li>
+    <li><a href="#">Any budget</a></li>
+    <li>or</li>
+    <li>
+      @Html.ActionLink("+ Create project", "Create", "Projects", null, new { @class="button", id="create_project" })
+    </li>
+  </ul>
+</div>
+
+@if (Model.Count() > 0)
+{
+    foreach (var project in Model)
+    {
+        <div class="column grid_6 card_wrapper">
+          <div class="project_card">
+  
+            <h2>@Html.ActionLink(Html.Truncate(project.Name, 32, string.Empty), "Details", "Projects", new { id = project.Id }, null)</h2>
+            <p>
+              Budget: @project.Budget.ToString("C0") &nbsp;
+              <span class="quiet">Department name</span>
+            </p>
+            <div class="project_leader">
+              <img alt="Administrator" src="http://gravatar.com/avatar/383c8158ee366597f7e98b952b012723?size=40" />
+            </div>    
+            <hr />    
+            <div class="project_images">
+              <img alt="Project images" src="@Url.Content("~/Content/images/project_image.png")" width="420px" height="320px" />
+            </div>
+            <p class="soft">
+              @Html.Truncate(Html.Sanitize(project.Description), 110)
+            </p>
+    
+          </div>  
+        </div>
+    }
+}
+else
+{
+    <div class="column grid_12">
+      <div class="blank_slate">
+  
+        No projects found.
+  
+      </div>
+    </div>
+}

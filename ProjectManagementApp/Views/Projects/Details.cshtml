@@ -1,0 +1,81 @@
+﻿@model ProjectManagementApp.Models.Project
+@using ProjectManagementApp.Helpers
+
+@{
+    ViewBag.Title = "Project overview";
+    ViewBag.CurrentProject = Model;
+}
+
+<div id="content" class="column grid_12">
+  <div class="inner">
+    @Html.ActionLink("Back to projects", "Index", "Projects", null, new { @class = "back_link" })
+    <h2>Project overview</h2>
+    <hr />
+    
+    @if (ViewBag.CurrentUser.IsAdmin)
+    {
+        <div id="action_bar">
+            @Html.ActionLink("Edit project", "Edit", "Projects", new { id = Model.Id }, new { @class = "button" })
+            @Html.ActionLink("Delete project", "Delete", "Projects", new { id = Model.Id }, new { @class = "button" })
+        </div>
+    }
+    
+  </div>
+  
+  <div class="row">
+    <div class="column grid_12">
+      <div class="inner">
+        
+        <ul class="panel clearfix">
+          <li>
+            <span class="label">Start</span>
+            <span class="indicator">
+              @Model.DateCreated.ToString("d/M/yy")
+            </span>
+          </li>
+          <li>
+            <span class="label">Budget</span>
+            <span class="indicator">
+              @String.Format("{0:F1}", Model.Budget/1000000) M
+            </span>
+          </li>
+          <li>
+            <span class="label">People</span>
+            <span class="indicator">
+              @Model.Users.Count
+            </span>
+          </li>
+          <li>
+            <span class="label">Progress</span>
+            <span class="indicator">0%</span>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="column grid_6">
+      <div class="inner last">
+    
+        <h3 class="soft">Description:</h3>
+        <p>@Html.Raw(Model.Description)</p>
+        
+        <hr class="space" />
+        
+      </div>
+    </div>
+    
+    <div class="column grid_6">
+      <div class="inner last">
+      
+      <h3 class="soft">Team members:</h3>
+      @foreach (var user in Model.Users)
+      {
+          @Html.GravatarImage(user.Email)
+      }
+      </div>
+    </div>
+  </div>
+</div>

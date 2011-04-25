@@ -1,0 +1,64 @@
+﻿@model ProjectManagementApp.Models.Task
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+<div id="content" class="column grid_12">
+  <div class="inner last">
+  
+    <h2 class="center">
+      <span class="iconic pencil"></span>
+      Create new task
+    </h2>
+    <hr />
+    
+    @using (Html.BeginForm("Create", "Tasks", new { pid=ViewBag.CurrentProject.Id }))
+    {
+      @Html.ValidationSummary(true)
+      <fieldset class="inputs">
+        <ol>
+          <li class="string required title">
+            @Html.LabelFor(model => model.Name)
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name)
+          </li>
+          <li class="string required title">
+            @Html.LabelFor(model => model.Description)
+            @Html.TextAreaFor(model => model.Description)
+            @Html.ValidationMessageFor(model => model.Description)
+          </li>
+          <li class="select required">
+            @Html.LabelFor(model => model.TaskType)
+            @Html.DropDownList(
+                "TaskTypeId",
+                new SelectList(ViewBag.TaskTypes as System.Collections.IEnumerable, "Id", "Name", Model.TaskTypeId),
+                new { style = "width:308px;padding:3px 2px" })
+          </li>
+          <li class="select required">
+            @Html.LabelFor(model => model.TaskStatus)
+            @Html.DropDownList(
+                "TaskStatusId",
+                new SelectList(ViewBag.TaskStatuses as System.Collections.IEnumerable, "Id", "Name", Model.TaskStatusId),
+                new { style = "width:308px;padding:3px 2px" })
+          </li>
+          <li class="string required">
+            @Html.LabelFor(model => model.Cost)
+            @Html.EditorFor(model => model.Cost)
+            @Html.ValidationMessageFor(model => model.Cost)
+          </li>
+        </ol>
+      </fieldset>
+      <fieldset class="buttons">
+        <ol>
+            <li><input type="submit" value="Create" /></li>
+            <li>or @Html.ActionLink("Cancel", "Details", "Projects", new { id=ViewBag.CurrentProject.Id }, null)</li>
+        </ol>
+      </fieldset>
+    }
+
+  </div>
+</div>

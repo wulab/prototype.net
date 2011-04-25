@@ -1,0 +1,40 @@
+﻿@model ProjectManagementApp.Models.Project
+
+@{
+    ViewBag.Title = "Project tasks";
+    ViewBag.CurrentProject = Model;
+}
+
+<div id="content" class="column grid_12">
+  <div class="inner last">
+    @Html.ActionLink("Back to projects", "Index", "Projects", null, new { @class = "back_link" })
+    <h2>Project tasks</h2>
+    <hr />
+    
+    <div id="action_bar">
+      @Html.ActionLink("+ Add task", "Create", "Tasks", new { pid = Model.Id }, new { @class = "button" })
+    </div>
+    
+    @if (Model.Tasks.Count > 0)
+    {
+        foreach (var task in Model.Tasks)
+        {
+          <h3 style="color:#1a4882">@task.Name</h3>
+          <p>
+            <strong>Type:</strong> @task.TaskType.Name |
+            <strong>Status:</strong> @task.TaskStatus.Name |
+            <strong>Cost:</strong> @task.Cost.ToString("C0")
+          </p>
+          <p class="soft">@task.Description</p>
+          <br /><hr />
+        }
+    }
+    else
+    {
+        <div class="blank_slate">
+          Hooray! No task assignments for this project.
+        </div>
+    }
+    
+  </div>
+</div>
