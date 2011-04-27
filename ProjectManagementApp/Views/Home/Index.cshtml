@@ -11,9 +11,7 @@
     <p class="center">
       This is the home page for the project management application.
       <br /><br />
-      <a href="/Account/Register" class="big button">
-        <span class="check iconic"></span> Sign up now!
-      </a>
+      @Html.ActionLink("Sign up now!", "Create", "Users", null, new { @class = "big button" })
     </p>
     
   </div>
